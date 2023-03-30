@@ -24,7 +24,6 @@ public class OrderBusinesService implements OrderBusinesServiceInterface {
 	@Autowired
 	OrderDataAccessInterface ordersDAO;
 	
-	
 	@Override
 	public void test() {
 		System.out.println("OrderBusinesService is working");
@@ -33,7 +32,7 @@ public class OrderBusinesService implements OrderBusinesServiceInterface {
 	
 	@Override
 	public List<OrderModel> getOrders() {	
-		return  ordersDAO.getOrders();
+		return ordersDAO.getOrders();
 	}
 
 	
@@ -51,8 +50,7 @@ public class OrderBusinesService implements OrderBusinesServiceInterface {
 	
 	@Override
 	public OrderModel getById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return ordersDAO.getById(id);
 	}
 
 	
@@ -64,22 +62,19 @@ public class OrderBusinesService implements OrderBusinesServiceInterface {
 	
 	@Override
 	public long addOne(OrderModel newOrder) {
-		// TODO Auto-generated method stub
-		return 0;
+		return ordersDAO.addOne(newOrder);
 	}
 
 	
 	@Override
 	public boolean deleteOne(long id) {
-		// TODO Auto-generated method stub
-		return false;
+		return ordersDAO.deleteOne(id);
 	}
 
 	
 	@Override
 	public OrderModel updateOne(long idToUpdate, OrderModel updateOrder) {
-		// TODO Auto-generated method stub
-		return null;
+		return ordersDAO.updateOne(idToUpdate, updateOrder);
 	}
 
 }

@@ -5,8 +5,10 @@ package com.mneumann1.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mneumann1.model.OrderModel;
 
@@ -39,7 +41,12 @@ public class OrderFakeDAO implements OrderDataAccessInterface {
 	
 	@Override
 	public OrderModel getById(long id) {
-		//OrderModel orderModel = orders.indexOf(id);
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == id) {
+				return orders.get(i);
+			}
+		}
+		// nothing found
 		return null;
 	}
 
@@ -53,34 +60,61 @@ public class OrderFakeDAO implements OrderDataAccessInterface {
 	@Override
 	public List<OrderModel> searchOrders(String searchTerm) {
 		
-		List<OrderModel> foundItems = new ArrayList<OrderModel>();
+//		List<OrderModel> foundItems = new ArrayList<OrderModel>();
+//		
+//		for (int i = 0; i < orders.size(); i++) {
+//			if (orders.get(i).getProductName().toLowerCase().contains(searchTerm.toLowerCase())) {
+//				foundItems.add(orders.get(i));
+//			}
+//		}
+//		return foundItems;
 		
-		for (int i = 0; i < orders.size(); i++) {
-			if (orders.get(i).getProductName().toLowerCase().contains(searchTerm.toLowerCase())) {
-				foundItems.add(orders.get(i));
-			}
-		}
+		// better Version
+		List<OrderModel> foundItems = orders
+				.stream()
+				.filter(order -> order.getProductName().toLowerCase()
+				.contains(searchTerm.toLowerCase()))
+				.collect(Collectors.toList());
+				
 		return foundItems;
+		
 	}
 
 	
 	@Override
 	public long addOne(OrderModel newOrder) {
-		// TODO Auto-generated method stub
-		return 0;
+		boolean success = orders.add(newOrder);
+		
+		if (success) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	
 	@Override
 	public boolean deleteOne(long id) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == id) {
+				orders.remove(i);
+				return true;
+			}
+		}
+		// nothing found
 		return false;
 	}
 
 	
 	@Override
 	public OrderModel updateOne(long idToUpdate, OrderModel updateOrder) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == idToUpdate) {
+				orders.set(i, updateOrder);
+				return orders.get(i);
+			}
+		}
+		// nothing found
 		return null;
 	}
 
